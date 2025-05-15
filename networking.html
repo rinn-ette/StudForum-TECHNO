@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Спілкування | Нетворкінг</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Tektur&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="header_footer.css">
+  <style>
+    :root {
+      --bg-color: #0e0e0e;
+      --text-color: #c6ffc1;
+      --accent-color: #a6ff00;
+      --card-bg: #1a1a1a;
+      --header-bg: #000;
+      --footer-bg: #000;
+      --border-color: #333;
+      --dropdown-bg: #3a3a3a;
+      --logo-src: url('logo.png');
+    }
+    body.light-theme {
+      --bg-color: #f2f2f2;
+      --text-color: #000;
+      --accent-color: #5e8f01;
+      --card-bg: #eaeaea;
+      --header-bg: #fff;
+      --footer-bg: #f0f0f0;
+      --border-color: #ccc;
+      --dropdown-bg: #f0f0f0;
+      --logo-src: url('logo-white.png');
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'JetBrains Mono', monospace;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s, color 0.3s;
+    }
+    
+    /* Основний контент*/
+    .hero {
+      text-align: center;
+      padding: 3rem 1rem;
+      background: linear-gradient(135deg, var(--accent-color) 0%, var(--card-bg) 100%);
+      color: #000;
+      border-radius: 10px;
+      margin: 1rem;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+    .hero p {
+      font-size: 1.2rem;
+    }
+    .btn {
+      background-color: var(--accent-color); 
+      color: #000; border: none;
+      padding: 0.8rem 1.5rem; 
+      font-weight: bold; cursor: pointer; 
+      border-radius: 10px;
+    }
+    .section h2 {
+      color: var(--accent-color); 
+      margin-bottom: 1rem; 
+      text-align: center; 
+      font-size: 2rem;
+    }
+    .grid {
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+      gap: 1rem;
+    }
+    .card {
+      background-color: var(--card-bg); 
+      padding: 1rem; 
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      margin-bottom: 1rem;
+    }
+    /* Картки учасників */
+    .participants-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .participant-card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      border: 1px solid var(--border-color);
+      transition: transform 0.2s;
+    }
+    .participant-card:hover { 
+      transform: translateY(-4px) scale(1.03); 
+    }
+    .participant-photo {
+      width: 90px; 
+      height: 90px; 
+      border-radius: 50%;
+      object-fit: cover; 
+      margin-bottom: 1rem; 
+      border: 2px solid var(--accent-color);
+      background: #222;
+    }
+    .participant-name {
+      font-weight: bold; 
+      font-size: 1.1rem; 
+      margin-bottom: 0.3rem; 
+      color: var(--accent-color);
+    }
+    .participant-desc {
+      font-size: 0.95rem; 
+      color: var(--text-color); 
+      opacity: 0.8; 
+      margin-bottom: 1rem;
+    }
+    .participant-actions {
+      display: flex; 
+      gap: 0.5rem; 
+      width: 100%; 
+      justify-content: center;
+    }
+    .participant-actions .btn {
+      padding: 0.5rem 1rem; 
+      font-size: 0.95rem; 
+      border-radius: 6px;
+      background: var(--accent-color); 
+      color: #000; 
+      font-weight: bold;
+      border: none; 
+      transition: background 0.2s;
+    }
+    .participant-actions .btn.friend {
+      background: var(--dropdown-bg); 
+      color: var(--accent-color);
+      border: 1px solid var(--accent-color);
+    }
+    .participant-actions .btn:hover { 
+      filter: brightness(1.1); 
+    }
+    
+    /* Блок активності */
+    .activity-feed {
+      display: flex; 
+      flex-direction: column; 
+      gap: 1.2rem; 
+      max-width: 700px; 
+      margin: 0 auto 2rem auto;
+    }
+    .activity-post {
+      background: var(--card-bg); 
+      border-radius: 12px; 
+      padding: 1.2rem;
+      border: 1px solid var(--border-color);
+      text-align: left;
+      transition: box-shadow 0.3s, transform 0.2s;
+      box-shadow: var(--box-shadow);
+      margin-bottom: 1.5rem;
+    }
+    .activity-post:hover {
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transform: translateY(-2px);
+    }
+    .activity-post-header {
+      display: flex; 
+      align-items: center; 
+      gap: 0.8rem; 
+      margin-bottom: 0.5rem;
+    }
+    .activity-post-avatar {
+      width: 48px; 
+      height: 48px; 
+      border-radius: 50%; 
+      object-fit: cover; 
+      background: #222;
+      border: 2px solid var(--accent-color);
+    }
+    .activity-post-user {
+      font-weight: bold; 
+      color: var(--accent-color);
+    }
+    .activity-post-time {
+      font-size: 0.9em; 
+      color: var(--text-color); 
+      opacity: 0.7; 
+      margin-left: 0.5rem;
+    }
+    .activity-post-content { 
+      font-size: 1rem; 
+      margin-bottom: 0.5rem; 
+    }
+    .activity-post-actions { 
+      display: flex; 
+      gap: 0.7rem; 
+    }
+    .activity-post-actions .btn {
+      padding: 0.4rem 0.9rem; 
+      font-size: 0.93rem; 
+      border-radius: 8px;
+      background: var(--dropdown-bg); 
+      color: var(--accent-color);
+      border: 1px solid var(--accent-color); 
+      font-weight: bold;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .activity-post-actions .btn:hover { 
+      background: var(--accent-color); 
+      color: #000; 
+      transform: scale(1.05);
+    }
+    .activity-post-actions .btn.liked {
+      background: var(--accent-color);
+      color: var(--bg-color);
+    }
+
+    /* Стилі для секції коментарів */
+    .comments-section {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+    .comment {
+      display: flex;
+      margin-bottom: 1rem;
+      padding: 0.8rem;
+      background: rgba(0,0,0,0.1);
+      border-radius: 8px;
+    }
+    .comment-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .comment-content {
+      flex: 1;
+    }
+    .comment-author {
+      font-weight: bold;
+      color: var(--accent-color);
+    }
+    .add-comment {
+      margin-top: 1rem;
+      display: flex;
+      gap: 10px;
+    }
+    .add-comment textarea {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      background: var(--dropdown-bg);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      resize: none;
+    }
+    .add-comment button {
+      background: var(--accent-color);
+      color: var(--bg-color);
+      border: none;
+      border-radius: 8px;
+      padding: 0 1rem;
+      cursor: pointer;
+    }
+
+    /*СТВОРЕННЯ ПОСТА*/
+    .create-post-btn {
+      display: block; 
+      margin: 2rem auto 0 auto;
+      margin-bottom: 2rem;
+      background: var(--accent-color); 
+      color: #000; 
+      font-weight: bold;
+      border: none; 
+      border-radius: 10px; 
+      padding: 0.8rem 2.2rem; 
+      font-size: 1.1rem;
+      cursor: pointer; 
+      transition: background 0.2s;
+    }
+    .create-post-btn:hover { 
+      filter: brightness(1.1); 
+    }
+    textarea {
+      border-radius: 8px;
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+    .upload-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem; /* відступ від textarea або інших елементів */
+    }
+    .upload-btn {
+      background-color: var(--accent-color);
+      color: #000;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .upload-btn:hover {
+      filter: brightness(1.1);
+    }
+    .modal-content h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .hidden-upload {
+      display: none;
+    }
+    .upload-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .upload-btn .icon {
+      width: 20px;
+      height: 20px;
+    }
+    .icon {
+      width: 18px;
+      height: 18px;
+      vertical-align: middle;
+    }
+    
+    /* Медіа-запити */
+    @media (max-width: 768px) {
+      .participants-grid { 
+        grid-template-columns: 1fr; 
+      }
+      .activity-feed { 
+        padding-left: 0; 
+        padding-right: 0; 
+      }
+    }
+    /* Додаткові медіа-запити для кращої адаптивності */
+    @media (max-width: 480px) {
+      .section { padding: 1.5rem 1rem; }
+      .hero h1 { font-size: 1.7rem; }
+      .activity-post-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .activity-post-avatar {
+        margin-bottom: 0.5rem;
+      }
+      .modal-content {
+        width: 95%;
+        padding: 1rem;
+      }
+      .modal-large {
+        width: 95%;
+      }
+      .activity-post-actions {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+    }
+    @media (min-width: 481px) and (max-width: 768px) {
+      .participants-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .modal-content {
+        width: 90%;
+      }
+      .modal-large {
+        width: 90%;
+      }
+    }
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .participants-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <!-- Мобільна версія хедера -->
+    <div class="mobile-header">
+      <div class="burger" onclick="toggleMobileMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div class="mobile-logo">
+        <div class="logo" onclick="location.href='index.html'"></div>
+      </div>
+      <div class="mobile-search-box">
+        <input type="text" placeholder="Пошук...">
+      </div>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="index.html">Головна</a>
+      <a href="#">Курси</a>
+      <div class="mobile-nav-item">
+        <a href="javascript:void(0)" onclick="toggleSubmenu('comSubmenu')">Спілкування</a>
+        <div class="mobile-submenu" id="comSubmenu">
+          <a href="#">Про життя</a>
+          <a href="#">Мемисектор</a>
+          <a href="#">Знайомства</a>
+          <a href="networking.html" style="color:var(--accent-color);font-weight:bold;">Нетворкінг</a>
+        </div>
+      </div>
+      <div class="mobile-nav-item">
+        <a href="javascript:void(0)" onclick="toggleSubmenu('ratSubmenu')">Рейтинги</a>
+        <div class="mobile-submenu" id="ratSubmenu">
+          <a href="teachers.html">Викладачі</a>
+          <a href="#">Студенти</a>
+        </div>
+      </div>
+      <a href="#">Увійти</a>
+      <a href="#">Реєстрація</a>
+    </nav>
+    <!-- Десктопна версія хедера -->
+    <div class="desktop-header">
+      <div class="logo" onclick="location.href='index.html'"></div>
+      <nav class="desktop-nav">
+        <div class="nav-item"><a href="index.html">Головна</a></div>
+        <div class="nav-item"><a href="#">Курси</a></div>
+        <div class="nav-item">
+          <a href="#" style="color:var(--accent-color);font-weight:bold;">Спілкування</a>
+          <div class="nav-dropdown">
+            <a href="#">Про життя</a>
+            <a href="#">Мемисектор</a>
+            <a href="#">Знайомства</a>
+            <a href="networking.html" style="color:var(--accent-color);font-weight:bold;">Нетворкінг</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a href="#">Рейтинги</a>
+          <div class="nav-dropdown">
+            <a href="teachers.html">Викладачі</a>
+            <a href="#">Студенти</a>
+          </div>
+        </div>
+        <div class="search-box">
+          <input type="text" placeholder="Пошук...">
+        </div>
+        <button class="auth-buttons" onclick="openModal('loginModal')">Увійти</button>
+        <button class="auth-buttons" onclick="openModal('registerModal')">Реєстрація</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Модальне вікно входу -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('loginModal')">&times;</span>
+      <h2>Вхід</h2>
+      <form>
+        <input type="text" placeholder="Пошта / Телефон / Ім’я" required>
+        <input type="password" placeholder="Пароль" required>
+        <button type="submit">Увійти</button>
+      </form>
+    </div>
+  </div>
+  <!-- Модальне вікно реєстрації -->
+  <div class="modal" id="registerModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('registerModal')">&times;</span>
+      <h2>Реєстрація</h2>
+      <form>
+        <input type="text" placeholder="Ім’я" required>
+        <input type="text" placeholder="Прізвище" required>
+        <input type="date" placeholder="Дата народження" required>
+        <input type="number" placeholder="Курс" min="1" max="4" required>
+        <input type="email" placeholder="Email або Телефон" required>
+        <input type="password" placeholder="Пароль" required>
+        <input type="password" placeholder="Повторіть пароль" required>
+        <button type="submit">Зареєструватися</button>
+      </form>
+    </div>
+  </div>
+
+  <main>
+    <section class="hero">
+      <h1>Спілкування – Нетворкінг</h1>
+      <p>Онлайн-простір для обміну думками, знаходження однодумців та розширення кола контактів у спільноті StudForum.</p>
+    </section>
+
+    <section class="section">
+      <h2>Учасники спільноти</h2>
+      <div class="participants-grid">
+        <div class="participant-card">
+          <img class="participant-photo" src="https://zefirka.club/uploads/posts/2023-01/1673691440_1-zefirka-club-p-molniya-makvin-na-avu-2.jpg" alt="Іван Блискавка">
+          <div class="participant-name">Іван Блискавка</div>
+          <div class="participant-desc">3 курс, програмування</div>
+          <div class="participant-actions">
+            <button class="btn" onclick="openMessageForm(1, 'Іван Блискавка')">Написати</button>
+            <button class="btn friend" onclick="sendFriendRequest(this, 1)">Додати в друзі</button>
+          </div>
+        </div>
+        <div class="participant-card">
+          <img class="participant-photo" src="https://klike.net/uploads/posts/2021-12/1639034040_22.jpg" alt="Вікторія Фільтр">
+          <div class="participant-name">Вікторія Фільтр</div>
+          <div class="participant-desc">Студентка 2 курсу, дизайн</div>
+          <div class="participant-actions">
+            <button class="btn message" onclick="openMessageForm(2, 'Вікторія Фільтр')">Написати</button>
+            <button class="btn friend" onclick="sendFriendRequest(this, 2)">Додати в друзі</button>
+          </div>
+        </div>
+        <div class="participant-card">
+          <img class="participant-photo" src="https://vinyl-market.ru/images/shop_items/116.jpg.webp" alt="Вадим Закон">
+          <div class="participant-name">Вадим Закон</div>
+          <div class="participant-desc">Студент 3 курсу, АКСМ</div>
+          <div class="participant-actions">
+            <button class="btn message" onclick="openMessageForm(3, 'Вадим Закон')">Написати</button>
+            <button class="btn friend" onclick="sendFriendRequest(this, 3)">Додати в друзі</button>
+          </div>
+        </div>
+        <div class="participant-card">
+          <img class="participant-photo" src="https://i.pinimg.com/736x/33/ae/9e/33ae9efdf3c4f70da38679f709a03294.jpg" alt="Андрій Потато">
+          <div class="participant-name">Андрій Потато</div>
+          <div class="participant-desc">Студент 4 курсу, фізика</div>
+          <div class="participant-actions">
+            <button class="btn message" onclick="openMessageForm(4, 'Андрій Потато')">Написати</button>
+            <button class="btn friend" onclick="sendFriendRequest(this, 4)">Додати в друзі</button>
+          </div>
+        </div>
+      </div>
+      <button id="loadMoreBtn" class="btn" style="margin:0 auto;display:block;" onclick="showMoreParticipants()">Показати більше</button>
+    </section>
+
+    <section class="section">
+      <h2>Активність учасників</h2>
+      <div class="activity-feed">
+        <div class="activity-post">
+          <div class="activity-post-header">
+            <img class="activity-post-avatar" src="https://vinyl-market.ru/images/shop_items/116.jpg.webp" alt="NEZVER">
+            <span class="activity-post-user">Вадим (NEZVER) Закон</span>
+            <span class="activity-post-time">2 години тому</span>
+          </div>
+          <div class="activity-post-content">
+            Юридично підтверджено: мій TikTok (<a href="#" style="color:var(--accent-color);">@zakon552</a>) — єдине місце, де:<br>
+            • GPU реве, як студент за ніч до здачі,<br>
+            • лаби летять, як фраги в CS,<br>
+            • і навіть лектор підписався на мій стрім🎮<br>
+            👮‍♂️ Не слідкуєш? 🔍 Це вже стаття за:<br>
+            "Умисне ігнорування гумористично-освітнього контенту в особливо прикольному розмірі!"<br>
+            📲 Заходь, дивись, смійся — і нехай Wi-Fi завжди буде з тобою!<br>
+            <a style="color:var(--accent-color); ">#ВадимЗакон #TikTok #zakon552</a>
+          </div>
+          <div class="activity-post-actions">
+            <button class="btn" onclick="handleLike(this, 1)">
+              <span class="icon icon-like">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                  width="18px" height="18px" viewBox="0 0 512.000000 512.000000"
+                  preserveAspectRatio="xMidYMid meet">
+                  <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                  fill="currentColor" stroke="none">
+                  <path d="M386 4984 c-130 -31 -261 -133 -324 -251 -66 -124 -63 -48 -60 -1580
+                  l3 -1388 23 -59 c59 -156 184 -273 347 -327 31 -10 196 -14 710 -19 l669 -5
+                  338 -585 c186 -323 351 -597 367 -612 55 -49 147 -49 202 0 16 15 180 287 367
+                  612 l338 585 669 5 c514 5 679 9 710 19 164 54 288 170 347 327 l23 59 3 1380
+                  c2 993 0 1397 -8 1440 -36 193 -191 355 -381 400 -94 22 -4251 21 -4343 -1z
+                  m4291 -315 c40 -15 82 -57 104 -104 18 -38 19 -97 19 -1385 0 -1284 -1 -1347
+                  -19 -1385 -22 -50 -69 -91 -119 -105 -24 -6 -285 -10 -732 -10 -691 0 -695 0
+                  -730 -21 -19 -12 -40 -29 -47 -38 -7 -9 -141 -240 -299 -513 -158 -274 -291
+                  -498 -294 -498 -3 0 -134 222 -290 493 -156 270 -292 503 -303 517 -46 62 -15
+                  59 -777 60 -446 0 -708 4 -732 10 -50 14 -97 55 -119 105 -18 38 -19 102 -19
+                  1383 0 1471 -4 1380 58 1446 56 59 -92 55 2179 56 1454 0 2100 -3 2120 -11z"/>
+                  <path d="M1990 4099 c-155 -16 -316 -97 -431 -216 -79 -83 -129 -162 -165
+                  -268 -24 -69 -28 -96 -29 -195 0 -100 4 -125 28 -196 69 -203 242 -430 515
+                  -677 167 -151 560 -477 590 -488 35 -13 103 -11 133 5 28 15 304 239 479 390
+                  328 284 542 550 617 770 24 71 28 96 28 196 -1 99 -5 126 -29 195 -15 44 -47
+                  112 -71 151 -52 83 -168 197 -246 241 -169 96 -380 121 -567 68 -67 -19 -186
+                  -81 -242 -126 l-39 -32 -53 41 c-140 108 -331 160 -518 141z m219 -340 c72
+                  -25 148 -84 196 -154 57 -83 84 -100 155 -100 70 0 98 17 152 96 69 101 160
+                  159 274 177 172 28 349 -67 421 -224 82 -180 9 -347 -286 -647 -144 -147 -536
+                  -487 -561 -487 -28 0 -438 359 -592 518 -206 213 -297 374 -285 503 18 201
+                  220 363 427 341 25 -2 69 -13 99 -23z"/>
+                  </g>
+                </svg>
+              </span>
+              15</button>
+            <button class="btn" onclick="toggleComments(this, 1)">
+              <span class="icon icon-comment">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                width="18px" height="18px" viewBox="0 0 256.000000 256.000000"
+                preserveAspectRatio="xMidYMid meet">
+                  <g transform="translate(0.000000,256.000000) scale(0.100000,-0.100000)"
+                    fill="currentColor" stroke="none">
+                    <path d="M160 2511 c-78 -24 -129 -73 -150 -146 -8 -29 -10 -292 -8 -966 l3
+                    -926 30 -48 c21 -35 45 -56 80 -74 l49 -26 389 -5 389 -5 66 -75 c121 -137
+                    164 -175 215 -189 102 -29 161 0 288 144 54 62 106 116 115 119 9 3 176 6 372
+                    6 224 0 372 4 397 11 63 17 112 56 140 112 l25 51 0 921 c0 663 -3 932 -11
+                    956 -19 56 -59 100 -113 125 l-51 24 -1100 -1 c-605 0 -1111 -4 -1125 -8z
+                    m2244 -142 l26 -20 0 -924 c0 -893 -1 -924 -19 -946 l-19 -24 -394 -5 -393 -5
+                    -47 -28 c-26 -15 -54 -37 -62 -48 -8 -12 -51 -61 -96 -110 -76 -83 -84 -89
+                    -120 -89 -38 0 -44 6 -146 119 -58 65 -123 127 -143 137 -33 17 -70 19 -429
+                    24 l-394 5 -19 24 c-18 22 -19 53 -19 946 l0 924 26 20 c27 21 29 21 1124 21
+                    1095 0 1097 0 1124 -21z"/>
+                    <path d="M595 1975 c-31 -30 -32 -55 -2 -83 l23 -22 665 0 666 0 21 23 c28 30
+                    28 52 -3 82 l-24 25 -661 0 -661 0 -24 -25z"/>
+                    <path d="M590 1470 c-25 -25 -25 -51 -1 -81 l19 -24 672 0 672 0 19 24 c24 30
+                    24 56 -1 81 -20 20 -33 20 -690 20 -657 0 -670 0 -690 -20z"/>
+                    <path d="M586 958 c-21 -30 -20 -54 4 -78 20 -20 33 -20 690 -20 657 0 670 0
+                    690 20 24 24 25 48 4 78 l-15 22 -679 0 -679 0 -15 -22z"/>
+                  </g>
+                </svg>
+              </span>
+              <span class="comment-count">2</span></button>
+          </div>
+        </div>
+        <div class="activity-post">
+          <div class="activity-post-header">
+            <img class="activity-post-avatar" src="https://novostipmr.com/sites/default/files/filefield_paths/haker.jpg" alt="Сергій Савич">
+            <span class="activity-post-user">Сергій Савич</span>
+            <span class="activity-post-time">5 годин тому</span>
+          </div>
+          <div class="activity-post-content">
+            🎯 Майстер-клас від Сергія Савича <br>
+            «Як зробити презентацію, щоб її реально дивились»<br>
+            • Мінімум тексту — максимум ефекту<br>
+            • Дизайн, структура, подача — коротко і по суті<br>
+            • Без банальщини, з прикладами, як треба (і як не треба)<br>
+            📲 Хочеш, щоб твої слайди говорили за тебе? Заходь за <a href="#" style="color:var(--accent-color);">посиланням</a>.<br>
+            <a style="color:var(--accent-color); ">#СергійСавич #ПрезентаціїЯкМистецтво #StudForum</a>
+          </div>
+          <div class="activity-post-actions">
+            <button class="btn" onclick="handleLike(this, 2)">
+              <span class="icon icon-like">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                  width="18px" height="18px" viewBox="0 0 512.000000 512.000000"
+                  preserveAspectRatio="xMidYMid meet">
+                  <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                  fill="currentColor" stroke="none">
+                  <path d="M386 4984 c-130 -31 -261 -133 -324 -251 -66 -124 -63 -48 -60 -1580
+                  l3 -1388 23 -59 c59 -156 184 -273 347 -327 31 -10 196 -14 710 -19 l669 -5
+                  338 -585 c186 -323 351 -597 367 -612 55 -49 147 -49 202 0 16 15 180 287 367
+                  612 l338 585 669 5 c514 5 679 9 710 19 164 54 288 170 347 327 l23 59 3 1380
+                  c2 993 0 1397 -8 1440 -36 193 -191 355 -381 400 -94 22 -4251 21 -4343 -1z
+                  m4291 -315 c40 -15 82 -57 104 -104 18 -38 19 -97 19 -1385 0 -1284 -1 -1347
+                  -19 -1385 -22 -50 -69 -91 -119 -105 -24 -6 -285 -10 -732 -10 -691 0 -695 0
+                  -730 -21 -19 -12 -40 -29 -47 -38 -7 -9 -141 -240 -299 -513 -158 -274 -291
+                  -498 -294 -498 -3 0 -134 222 -290 493 -156 270 -292 503 -303 517 -46 62 -15
+                  59 -777 60 -446 0 -708 4 -732 10 -50 14 -97 55 -119 105 -18 38 -19 102 -19
+                  1383 0 1471 -4 1380 58 1446 56 59 -92 55 2179 56 1454 0 2100 -3 2120 -11z"/>
+                  <path d="M1990 4099 c-155 -16 -316 -97 -431 -216 -79 -83 -129 -162 -165
+                  -268 -24 -69 -28 -96 -29 -195 0 -100 4 -125 28 -196 69 -203 242 -430 515
+                  -677 167 -151 560 -477 590 -488 35 -13 103 -11 133 5 28 15 304 239 479 390
+                  328 284 542 550 617 770 24 71 28 96 28 196 -1 99 -5 126 -29 195 -15 44 -47
+                  112 -71 151 -52 83 -168 197 -246 241 -169 96 -380 121 -567 68 -67 -19 -186
+                  -81 -242 -126 l-39 -32 -53 41 c-140 108 -331 160 -518 141z m219 -340 c72
+                  -25 148 -84 196 -154 57 -83 84 -100 155 -100 70 0 98 17 152 96 69 101 160
+                  159 274 177 172 28 349 -67 421 -224 82 -180 9 -347 -286 -647 -144 -147 -536
+                  -487 -561 -487 -28 0 -438 359 -592 518 -206 213 -297 374 -285 503 18 201
+                  220 363 427 341 25 -2 69 -13 99 -23z"/>
+                  </g>
+                </svg>
+              </span>
+              18</button>
+            <button class="btn" onclick="toggleComments(this, 2)">
+              <span class="icon icon-comment">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                width="18px" height="18px" viewBox="0 0 256.000000 256.000000"
+                preserveAspectRatio="xMidYMid meet">
+                  <g transform="translate(0.000000,256.000000) scale(0.100000,-0.100000)"
+                    fill="currentColor" stroke="none">
+                    <path d="M160 2511 c-78 -24 -129 -73 -150 -146 -8 -29 -10 -292 -8 -966 l3
+                    -926 30 -48 c21 -35 45 -56 80 -74 l49 -26 389 -5 389 -5 66 -75 c121 -137
+                    164 -175 215 -189 102 -29 161 0 288 144 54 62 106 116 115 119 9 3 176 6 372
+                    6 224 0 372 4 397 11 63 17 112 56 140 112 l25 51 0 921 c0 663 -3 932 -11
+                    956 -19 56 -59 100 -113 125 l-51 24 -1100 -1 c-605 0 -1111 -4 -1125 -8z
+                    m2244 -142 l26 -20 0 -924 c0 -893 -1 -924 -19 -946 l-19 -24 -394 -5 -393 -5
+                    -47 -28 c-26 -15 -54 -37 -62 -48 -8 -12 -51 -61 -96 -110 -76 -83 -84 -89
+                    -120 -89 -38 0 -44 6 -146 119 -58 65 -123 127 -143 137 -33 17 -70 19 -429
+                    24 l-394 5 -19 24 c-18 22 -19 53 -19 946 l0 924 26 20 c27 21 29 21 1124 21
+                    1095 0 1097 0 1124 -21z"/>
+                    <path d="M595 1975 c-31 -30 -32 -55 -2 -83 l23 -22 665 0 666 0 21 23 c28 30
+                    28 52 -3 82 l-24 25 -661 0 -661 0 -24 -25z"/>
+                    <path d="M590 1470 c-25 -25 -25 -51 -1 -81 l19 -24 672 0 672 0 19 24 c24 30
+                    24 56 -1 81 -20 20 -33 20 -690 20 -657 0 -670 0 -690 -20z"/>
+                    <path d="M586 958 c-21 -30 -20 -54 4 -78 20 -20 33 -20 690 -20 657 0 670 0
+                    690 20 24 24 25 48 4 78 l-15 22 -679 0 -679 0 -15 -22z"/>
+                  </g>
+                </svg>
+              </span>
+              <span class="comment-count">1</span></button>
+          </div>
+        </div>
+        <div class="activity-post">
+          <div class="activity-post-header">
+            <img class="activity-post-avatar" src="https://i.pinimg.com/736x/bd/9f/76/bd9f766051eeb290396047d9153b0a37.jpg" alt="Анна Яблуко">
+            <span class="activity-post-user">Анна Яблуко</span>
+            <span class="activity-post-time">Вчора, 18:45</span>
+          </div>
+          <div class="activity-post-content">
+            Якщо ти хоч раз питав(ла) себе:<br>
+            «Що це за моделювання таке і з чим його їдять?» — то тобі до мене 🍏<br>
+            🔗 Мій Telegram-канал — це:<br>
+            • простими словами про складні речі<br>
+            • лайфхаки, схеми, шпаргалки<br>
+            • трохи гумору, бо інакше в MATLAB не зайти 😅<br>
+            💻 Комп’ютерне моделювання — це цікаво.<br>
+            Я покажу, як саме.<br>
+            👉 Приєднуйся: <a href="#" style="color:var(--accent-color);">@modelling_with_apple</a><br>
+            <a style="color:var(--accent-color); ">#АннаЯблуко #КомпМоделювання #StudForum #MATLABщодня</a>
+          </div>
+          <div class="activity-post-actions">
+            <button class="btn" onclick="handleLike(this, 3)">
+              <span class="icon icon-like">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                  width="18px" height="18px" viewBox="0 0 512.000000 512.000000"
+                  preserveAspectRatio="xMidYMid meet">
+                  <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                  fill="currentColor" stroke="none">
+                  <path d="M386 4984 c-130 -31 -261 -133 -324 -251 -66 -124 -63 -48 -60 -1580
+                  l3 -1388 23 -59 c59 -156 184 -273 347 -327 31 -10 196 -14 710 -19 l669 -5
+                  338 -585 c186 -323 351 -597 367 -612 55 -49 147 -49 202 0 16 15 180 287 367
+                  612 l338 585 669 5 c514 5 679 9 710 19 164 54 288 170 347 327 l23 59 3 1380
+                  c2 993 0 1397 -8 1440 -36 193 -191 355 -381 400 -94 22 -4251 21 -4343 -1z
+                  m4291 -315 c40 -15 82 -57 104 -104 18 -38 19 -97 19 -1385 0 -1284 -1 -1347
+                  -19 -1385 -22 -50 -69 -91 -119 -105 -24 -6 -285 -10 -732 -10 -691 0 -695 0
+                  -730 -21 -19 -12 -40 -29 -47 -38 -7 -9 -141 -240 -299 -513 -158 -274 -291
+                  -498 -294 -498 -3 0 -134 222 -290 493 -156 270 -292 503 -303 517 -46 62 -15
+                  59 -777 60 -446 0 -708 4 -732 10 -50 14 -97 55 -119 105 -18 38 -19 102 -19
+                  1383 0 1471 -4 1380 58 1446 56 59 -92 55 2179 56 1454 0 2100 -3 2120 -11z"/>
+                  <path d="M1990 4099 c-155 -16 -316 -97 -431 -216 -79 -83 -129 -162 -165
+                  -268 -24 -69 -28 -96 -29 -195 0 -100 4 -125 28 -196 69 -203 242 -430 515
+                  -677 167 -151 560 -477 590 -488 35 -13 103 -11 133 5 28 15 304 239 479 390
+                  328 284 542 550 617 770 24 71 28 96 28 196 -1 99 -5 126 -29 195 -15 44 -47
+                  112 -71 151 -52 83 -168 197 -246 241 -169 96 -380 121 -567 68 -67 -19 -186
+                  -81 -242 -126 l-39 -32 -53 41 c-140 108 -331 160 -518 141z m219 -340 c72
+                  -25 148 -84 196 -154 57 -83 84 -100 155 -100 70 0 98 17 152 96 69 101 160
+                  159 274 177 172 28 349 -67 421 -224 82 -180 9 -347 -286 -647 -144 -147 -536
+                  -487 -561 -487 -28 0 -438 359 -592 518 -206 213 -297 374 -285 503 18 201
+                  220 363 427 341 25 -2 69 -13 99 -23z"/>
+                  </g>
+                </svg>
+              </span>
+              21</button>
+            <button class="btn" onclick="toggleComments(this, 3)">
+                <span class="icon icon-comment">
+                  <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                  width="18px" height="18px" viewBox="0 0 256.000000 256.000000"
+                  preserveAspectRatio="xMidYMid meet">
+                    <g transform="translate(0.000000,256.000000) scale(0.100000,-0.100000)"
+                      fill="currentColor" stroke="none">
+                      <path d="M160 2511 c-78 -24 -129 -73 -150 -146 -8 -29 -10 -292 -8 -966 l3
+                      -926 30 -48 c21 -35 45 -56 80 -74 l49 -26 389 -5 389 -5 66 -75 c121 -137
+                      164 -175 215 -189 102 -29 161 0 288 144 54 62 106 116 115 119 9 3 176 6 372
+                      6 224 0 372 4 397 11 63 17 112 56 140 112 l25 51 0 921 c0 663 -3 932 -11
+                      956 -19 56 -59 100 -113 125 l-51 24 -1100 -1 c-605 0 -1111 -4 -1125 -8z
+                      m2244 -142 l26 -20 0 -924 c0 -893 -1 -924 -19 -946 l-19 -24 -394 -5 -393 -5
+                      -47 -28 c-26 -15 -54 -37 -62 -48 -8 -12 -51 -61 -96 -110 -76 -83 -84 -89
+                      -120 -89 -38 0 -44 6 -146 119 -58 65 -123 127 -143 137 -33 17 -70 19 -429
+                      24 l-394 5 -19 24 c-18 22 -19 53 -19 946 l0 924 26 20 c27 21 29 21 1124 21
+                      1095 0 1097 0 1124 -21z"/>
+                      <path d="M595 1975 c-31 -30 -32 -55 -2 -83 l23 -22 665 0 666 0 21 23 c28 30
+                      28 52 -3 82 l-24 25 -661 0 -661 0 -24 -25z"/>
+                      <path d="M590 1470 c-25 -25 -25 -51 -1 -81 l19 -24 672 0 672 0 19 24 c24 30
+                      24 56 -1 81 -20 20 -33 20 -690 20 -657 0 -670 0 -690 -20z"/>
+                      <path d="M586 958 c-21 -30 -20 -54 4 -78 20 -20 33 -20 690 -20 657 0 670 0
+                      690 20 24 24 25 48 4 78 l-15 22 -679 0 -679 0 -15 -22z"/>
+                    </g>
+                  </svg>
+                </span>
+                <span class="comment-count">1</span></button>
+          </div>
+
+        </div>
+      </div>
+      <button class="create-post-btn" onclick="openCreatePostModal()">Створити пост</button>
+    </section>
+  </main>
+
+  <!--ВІКНО СТВОРЕННЯ ПОСТА-->
+  <div class="modal" id="createPostModal">
+    <div class="modal-content modal-large">
+      <span class="close" onclick="closeModal('createPostModal')">&times;</span>
+      <h2>Створити новий пост</h2>
+      <form id="postForm" class="post-form">
+        <input type="text" placeholder="Заголовок (необов'язково)" class="post-title">
+        <textarea id="postText" placeholder="Що у вас на думці?" class="post-content" required></textarea>
+        
+        <div class="media-upload-section">
+          <div class="upload-preview" id="uploadPreview"></div>
+          <div class="upload-buttons">
+            <button type="button" class="upload-btn" onclick="triggerFileUpload('image')">
+              <img src="photo.svg" alt="Додати фото" class="icon"> Додати фото
+            </button>
+            <button type="button" class="upload-btn" onclick="triggerFileUpload('video')">
+              <img src="file.svg" alt="Вибрати файл" class="icon"> Вибрати файл
+            </button>
+          </div>
+          <input type="file" id="mediaUpload" accept="image/*, video/*" class="hidden-upload" multiple>
+        </div>
+        
+        <div class="post-options">
+          <label class="visibility-option">
+            <input type="radio" name="visibility" value="public" checked> Публічний
+          </label>
+          <label class="visibility-option">
+            <input type="radio" name="visibility" value="friends"> Тільки для друзів
+          </label>
+        </div>
+        
+        <button type="submit" class="submit-post">Опублікувати</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="footer"></div>
+
+  <script src="networking.js"></script>
+</body>
+</html>

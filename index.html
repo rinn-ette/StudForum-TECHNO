@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudForum | Techno</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Tektur&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="header_footer.css">
+  <style>
+    /* Global змінні */
+    :root {
+      --bg-color: #0e0e0e;
+      --text-color: #c6ffc1;
+      --accent-color: #a6ff00;
+      --card-bg: #1a1a1a;
+      --header-bg: #000;
+      --footer-bg: #000;
+      --border-color: #333;
+      --dropdown-bg: #3a3a3a;
+      --logo-src: url('logo.png');
+    }
+    body.light-theme {
+      --bg-color: #f2f2f2;
+      --text-color: #000;
+      --accent-color: #5e8f01;
+      --card-bg: #eaeaea;
+      --header-bg: #fff;
+      --footer-bg: #f0f0f0;
+      --border-color: #ccc;
+      --dropdown-bg: #f0f0f0;
+      --logo-src: url('logo-white.png');
+    }
+    body {
+      margin: 0;
+      font-family: 'JetBrains Mono', monospace;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s, color 0.3s;
+    }
+  
+    /* Інші секції сторінки */
+    .hero {
+      text-align: center;
+      padding: 3rem 1rem;
+      background: linear-gradient(135deg, var(--accent-color) 0%, var(--card-bg) 100%);
+      color: #000;
+      border-radius: 10px;
+      margin: 1rem;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+    .hero p {
+      font-size: 1.2rem;
+    }
+    .btn {
+      background-color: var(--accent-color);
+      color: #000;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 10px;
+      margin-top: 1rem;
+    }
+    .section {
+      padding: 2rem;
+    }
+    .section h2 {
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+      text-align: center;
+      font-size: 2rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background-color: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    }
+    .link-accent {
+      color: var(--accent-color);
+      text-decoration: none;
+      transition: text-decoration 0.2s ease;
+    }
+
+    .link-accent:hover {
+      text-decoration: underline;
+    }
+    .dropdown {
+      position: relative;
+    }
+    .dropdown-toggle {
+      display: block;
+      background-color: var(--dropdown-bg);
+      color: var(--accent-color);
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--accent-color);
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .dropdown-content {
+      display: none;
+      position: relative;
+      margin-top: 1rem;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    .dropdown.open .dropdown-content {
+      display: block;
+    }
+    .dropdown-content .course-item {
+      margin-bottom: 0.5rem;
+      background-color: var(--dropdown-bg);
+      border-left: 4px solid var(--accent-color);
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .rating-stars {
+      color: gold;
+    }
+    .comment {
+      margin-bottom: 0.8rem;
+    }
+    .comment strong {
+      display: block;
+      color: var(--accent-color);
+    }
+    .icon {
+      width: 18px;
+      height: 18px;
+      vertical-align: middle;
+      color: var(--accent-color);
+    }
+  </style>
+</head>
+<body>
+  <div id="header"></div>
+
+  <section class="hero">
+    <h1>Ласкаво просимо до StudForum!</h1>
+    <p>Онлайн-простір для навчання, гумору та нетворкінгу.</p>
+    <button class="btn" onclick="toggleTheme()">Перемкнути тему</button>
+  </section>
+
+  <section class="section">
+    <h2>Основні розділи</h2>
+    <div class="grid">
+      <div class="card dropdown" id="courseDropdown">
+        <div class="dropdown-toggle" onclick="toggleDropdown()">Курси</div>
+        <div class="dropdown-content">
+          <div class="course-item">1 курс – Першопрохідці</div>
+          <div class="course-item">2 курс – Відпочивайте</div>
+          <div class="course-item">3 курс – Тримайтеся</div>
+          <div class="course-item">4 курс – Легенди</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="icon" style="display: inline-flex; align-items: center; gap: 0.3rem;">
+          <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                width="18px" height="18px" viewBox="0 0 256.000000 256.000000"
+                preserveAspectRatio="xMidYMid meet">
+                  <g transform="translate(0.000000,256.000000) scale(0.100000,-0.100000)"
+                    fill="currentColor" stroke="none">
+                    <path d="M160 2511 c-78 -24 -129 -73 -150 -146 -8 -29 -10 -292 -8 -966 l3
+                    -926 30 -48 c21 -35 45 -56 80 -74 l49 -26 389 -5 389 -5 66 -75 c121 -137
+                    164 -175 215 -189 102 -29 161 0 288 144 54 62 106 116 115 119 9 3 176 6 372
+                    6 224 0 372 4 397 11 63 17 112 56 140 112 l25 51 0 921 c0 663 -3 932 -11
+                    956 -19 56 -59 100 -113 125 l-51 24 -1100 -1 c-605 0 -1111 -4 -1125 -8z
+                    m2244 -142 l26 -20 0 -924 c0 -893 -1 -924 -19 -946 l-19 -24 -394 -5 -393 -5
+                    -47 -28 c-26 -15 -54 -37 -62 -48 -8 -12 -51 -61 -96 -110 -76 -83 -84 -89
+                    -120 -89 -38 0 -44 6 -146 119 -58 65 -123 127 -143 137 -33 17 -70 19 -429
+                    24 l-394 5 -19 24 c-18 22 -19 53 -19 946 l0 924 26 20 c27 21 29 21 1124 21
+                    1095 0 1097 0 1124 -21z"/>
+                    <path d="M595 1975 c-31 -30 -32 -55 -2 -83 l23 -22 665 0 666 0 21 23 c28 30
+                    28 52 -3 82 l-24 25 -661 0 -661 0 -24 -25z"/>
+                    <path d="M590 1470 c-25 -25 -25 -51 -1 -81 l19 -24 672 0 672 0 19 24 c24 30
+                    24 56 -1 81 -20 20 -33 20 -690 20 -657 0 -670 0 -690 -20z"/>
+                    <path d="M586 958 c-21 -30 -20 -54 4 -78 20 -20 33 -20 690 -20 657 0 670 0
+                    690 20 24 24 25 48 4 78 l-15 22 -679 0 -679 0 -15 -22z"/>
+                  </g>
+                </svg>
+        </span>
+        <span>Спілкування</span>
+        <div class="comment"><strong>Невідомий Геній:</strong> "Яке ім'я у Надії Форманенко?"</div>
+        <div class="comment"><strong>Вадим Лис:</strong> "Сходив на АКСМ. Зміст лекції залишився загадкою, але подрімати вдалося чудово. Дякую за затишок, ставлю 3/10!"</div>
+        <div class="comment"><strong>Щаслива Людина:</strong> "Я на першому курсі. Хто здавав викладачу ZVER?"</div>
+        <div class="comment"><strong>Іван Блискавка:</strong> "Я більше не хочу бути старостою"</div>
+        <div class="comment"><strong>Сергій Савич:</strong> "Пустіть на пару. Я хочу вчитися!!!"</div>
+      </div>
+
+      <div class="card">
+        ⭐ Рейтинги
+        <p><strong>Вадим Звірицький</strong><br><span class="rating-stars">★★★☆☆</span><br>"Жорсткий, але справедливий" <a href="teachers.html" class="link-accent">Дивитися ще</a></p>
+        <p><strong>Катерина Змієнко</strong><br><span class="rating-stars">★★★★☆</span><br>"Завжди з усмішкою, але контрольна – безжальна." <a href="teachers.html" class="link-accent">Дивитися ще</a></p>
+        <p><strong>Олександро Макіято</strong><br><span class="rating-stars">★★★★★</span><br>"З кожної лекції виходжу з інсайтом і капучино." <a href="teachers.html" class="link-accent">Дивитися ще</a></p>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer"></div>
+
+  <script src="script.js">
+    document.addEventListener("DOMContentLoaded", function () {
+      // Підключення header
+      fetch('header.html')
+        .then(response => {
+          if (!response.ok) throw new Error('Не вдалося завантажити header.html');
+          return response.text();
+        })
+        .then(data => {
+          document.getElementById('header').innerHTML = data;
+        })
+        .catch(error => console.error('Помилка з хедером:', error));
+      // Підключення footer
+      fetch('footer.html')
+        .then(response => {
+          if (!response.ok) throw new Error('Не вдалося завантажити footer.html');
+          return response.text();
+        })
+        .then(data => {
+          document.getElementById('footer').innerHTML = data;
+        })
+        .catch(error => console.error('Помилка з футером:', error));
+    });
+  </script>
+
+</body>
+</html>

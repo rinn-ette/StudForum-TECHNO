@@ -1,0 +1,101 @@
+  <header>
+    <!-- Мобільна версія хедера -->
+    <div class="mobile-header">
+      <div class="burger" onclick="toggleMobileMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div class="mobile-logo">
+        <div class="logo" onclick="location.href='index.html'"></div>
+      </div>
+      <div class="mobile-search-box">
+        <input type="text" placeholder="Пошук...">
+      </div>
+    </div>
+    
+    <!-- Мобільне меню -->
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="index.html" style="color:var(--accent-color);font-weight:bold;" >Головна</a>
+      <a href="#">Курси</a>
+      <div class="mobile-nav-item">
+        <a href="javascript:void(0)" onclick="toggleSubmenu('comSubmenu')">Спілкування</a>
+        <div class="mobile-submenu" id="comSubmenu">
+          <a href="#">Про життя</a>
+          <a href="#">Мемисектор</a>
+          <a href="#">Знайомства</a>
+          <a href="networking.html">Нетворкінг</a>
+        </div>
+      </div>
+      <div class="mobile-nav-item">
+        <a href="javascript:void(0)" onclick="toggleSubmenu('ratSubmenu')">Рейтинги</a>
+        <div class="mobile-submenu" id="ratSubmenu">
+          <a href="teachers.html">Викладачі</a>
+          <a href="#">Студенти</a>
+        </div>
+      </div>
+      <a href="#">Увійти</a>
+      <a href="#">Реєстрація</a>
+    </nav>
+
+    <!-- Десктопна версія хедера -->
+    <div class="desktop-header">
+      <div class="logo" onclick="location.href='index.html'"></div>
+      <nav class="desktop-nav">
+        <div class="nav-item"><a href="index.html" style="color:var(--accent-color);font-weight:bold;" >Головна</a></div>
+        <div class="nav-item"><a href="#">Курси</a></div>
+        <div class="nav-item">
+          <a href="#">Спілкування</a>
+          <div class="nav-dropdown">
+            <a href="#">Про життя</a>
+            <a href="#">Мемисектор</a>
+            <a href="#">Знайомства</a>
+            <a href="networking.html">Нетворкінг</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a href="#">Рейтинги</a>
+          <div class="nav-dropdown">
+            <a href="teachers.html">Викладачі</a>
+            <a href="#">Студенти</a>
+          </div>
+        </div>
+        <div class="search-box">
+          <input type="text" placeholder="Пошук...">
+        </div>
+        <button class="auth-buttons" onclick="openModal('loginModal')">Увійти</button>
+        <button class="auth-buttons" onclick="openModal('registerModal')">Реєстрація</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Модальне вікно входу -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('loginModal')">&times;</span>
+      <h2>Вхід</h2>
+      <form>
+        <input type="text" placeholder="Пошта / Телефон / Ім’я" required>
+        <input type="password" placeholder="Пароль" required>
+        <button type="submit">Увійти</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Модальне вікно реєстрації -->
+  <div class="modal" id="registerModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('registerModal')">&times;</span>
+      <h2>Реєстрація</h2>
+      <form>
+        <input type="text" placeholder="Ім’я" required>
+        <input type="text" placeholder="Прізвище" required>
+        <input type="date" placeholder="Дата народження" required>
+        <input type="number" placeholder="Курс" min="1" max="4" required>
+        <input type="email" placeholder="Email або Телефон" required>
+        <input type="password" placeholder="Пароль" required>
+        <input type="password" placeholder="Повторіть пароль" required>
+        <button type="submit">Зареєструватися</button>
+      </form>
+    </div>
+  </div>
